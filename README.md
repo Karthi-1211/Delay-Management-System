@@ -7,8 +7,6 @@ A Java-based full-stack application designed to manage and monitor delays in a s
 - [Features](#Features)
 - [Technologies Used](#Technologies-used)
 - [Project Setup](#Project-setup)
-- [Database Structure](#database-structure)
-- [Usage](#usage)
 - [Screenshots](#screenshots)
 - [License](#license)
 
