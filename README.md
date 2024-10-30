@@ -6,9 +6,9 @@ A Java-based full-stack application designed to manage and monitor delays in a s
 - [Overview](#Overview)
 - [Features](#Features)
 - [Technologies Used](#Technologies-used)
-- [Project Setup](#Project-setup)
-- [Screenshots](#screenshots)
-- [License](#license)
+- [Prerequisites](#Prerequisites)
+- [Installation_](#Installation)
+   
 
 ---
 
@@ -41,7 +41,6 @@ The project uses an Excel sheet as the main data source, managed within the MySQ
 - **Backend**: MySQL (via XAMPP), Excel for initial data import
 - **Server**: Apache Tomcat
 
-## Project Setup
 
 ### Prerequisites
 1. **NetBeans IDE** (with Apache Tomcat configured)
