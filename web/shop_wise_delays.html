@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Wise Delay Graph</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Custom Styles -->
+    <style>
+        /* General body styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f9fc;
+            color: #333;
+            margin: 0; /* Remove default margins */
+            padding: 0; /* Remove default paddings */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header styling */
+        h1 {
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+            margin: 0; /* Remove margins */
+            padding: 20px; /* Reduced padding */
+            color: #ffffff;
+            background-color: #4a90e2;
+            border-bottom: 5px solid #2c3e50;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+            width: 100%; /* Ensure the header takes up full width */
+            position: fixed; /* Fix header to top */
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* Ensure content starts below the header */
+        .page-wrapper {
+            padding-top: 100px; /* Offset content for fixed header */
+        }
+
+        /* Container styling */
+        .container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            margin-top: 30px;
+        }
+
+        /* Dropdown and button styles */
+        select, button {
+            font-size: 1.2em;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            background-color: #e9ecef;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        select:hover, button:hover {
+            background-color: #dee2e6;
+            cursor: pointer;
+        }
+
+        /* Chart area styling */
+        #myChart {
+            margin-top: 30px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: none; /* Hide chart initially */
+        }
+
+        /* Placeholder text styling */
+        .placeholder-text {
+            text-align: center;
+            font-size: 1.5em;
+            color: #888;
+            padding: 60px;
+            border: 2px dashed #ccc;
+            border-radius: 12px;
+            background-color: #f9f9f9;
+            margin-top: 30px;
+        }
+    </style>
+
+    <script>
+        let myChart;
+
+        function searchAndRenderChart() {
+            const selectedValue = document.getElementById('shopDropdown').value;
+
+            // Hide placeholder when the shop code is selected
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('myChart').style.display = 'block';
+
+            // Fetch data from servlet
+            fetch('SearchServlet1', {
+                method: 'POST',
+                body: new URLSearchParams({
+                    query: selectedValue
+                }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                renderChart(data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+        }
+
+        function renderChart(data) {
+            const ctx = document.getElementById('myChart').getContext('2d');
+
+            // If the chart already exists, destroy it before creating a new one
+            if (myChart) {
+                myChart.destroy();
+            }
+
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.map(row => row.EFF_DURATION),
+                    datasets: [{
+                        label: 'Delay Duration',
+                        data: data.map(row => row.DELAY_DURN),
+                        backgroundColor: 'rgba(231, 76, 60, 0.5)',
+                        borderColor: 'rgba(231, 76, 60, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Trigger chart update whenever a new shop is selected
+            document.getElementById('shopDropdown').addEventListener('change', searchAndRenderChart);
+        });
+    </script>
+</head>
+<body>
+
+    <h1>Shop Wise Delay Graph</h1>
+
+    <div class="page-wrapper">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="input-group mb-3">
+                        <!-- Dropdown menu with values from 1 to 15 -->
+                        <select id="shopDropdown" class="form-control">
+                            <option value="0">Select Shop Code</option>
+                            <option value="1">Shop 1</option>
+                            <option value="2">Shop 2</option>
+                            <option value="3">Shop 3</option>
+                            <option value="4">Shop 4</option>
+                            <option value="5">Shop 5</option>
+                            <option value="6">Shop 6</option>
+                            <option value="7">Shop 7</option>
+                            <option value="8">Shop 8</option>
+                            <option value="9">Shop 9</option>
+                            <option value="10">Shop 10</option>
+                            <option value="11">Shop 11</option>
+                            <option value="12">Shop 12</option>
+                            <option value="13">Shop 13</option>
+                            <option value="14">Shop 14</option>
+                            <option value="15">Shop 15</option>
+                            <option value="16">Shop 16</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Placeholder text -->
+            <div id="placeholder" class="placeholder-text">
+                Please select a shop code to view the delay graph.
+            </div>
+
+            <!-- Chart area -->
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

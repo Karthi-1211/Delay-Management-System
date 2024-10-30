@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agency Delay Graph</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f9fc;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+            margin: 0;
+            padding: 20px;
+            color: #ffffff;
+            background-color: #4a90e2;
+            border-bottom: 5px solid #2c3e50;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .page-wrapper {
+            padding-top: 100px;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            margin-top: 30px;
+        }
+
+        select, button {
+            font-size: 1.2em;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            background-color: #e9ecef;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        select:hover, button:hover {
+            background-color: #dee2e6;
+            cursor: pointer;
+        }
+
+        #myChart {
+            margin-top: 30px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        .placeholder-text {
+            text-align: center;
+            font-size: 1.5em;
+            color: #888;
+            padding: 60px;
+            border: 2px dashed #ccc;
+            border-radius: 12px;
+            background-color: #f9f9f9;
+            margin-top: 30px;
+        }
+    </style>
+
+    <script>
+        let myChart;
+
+        function searchAndRenderChart() {
+            const selectedValue = document.getElementById('agency').value;
+
+            if (!selectedValue) {
+                alert('Please select a valid option.');
+                return;
+            }
+
+            // Hide placeholder when the shop code is selected
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('myChart').style.display = 'block';
+
+            // Fetch data from servlet
+            fetch('SearchServlet', {  // Ensure URL is correct
+                method: 'POST',
+                body: new URLSearchParams({
+                    agencyCode: selectedValue  // Send parameter that servlet expects
+                }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.length === 0) {
+                    alert('No data available for the selected option.');
+                    document.getElementById('myChart').style.display = 'none';
+                    return;
+                }
+                renderChart(data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                alert('Error fetching data. Please try again later.');
+            });
+        }
+
+        function renderChart(data) {
+            const ctx = document.getElementById('myChart').getContext('2d');
+
+            // Clear previous chart instance if any
+            if (myChart) {
+                myChart.destroy();
+            }
+
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.map(row => row.EFF_DURATION),
+                    datasets: [{
+                        label: 'Delay Duration',
+                        data: data.map(row => row.DELAY_DURN),
+                        backgroundColor: 'rgba(231, 76, 60, 0.5)',
+                        borderColor: 'rgba(231, 76, 60, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Trigger chart update whenever a new option is selected
+            document.getElementById('agency').addEventListener('change', searchAndRenderChart);
+        });
+    </script>
+</head>
+<body>
+
+    <h1>Agency Delay Graph</h1>
+
+    <div class="page-wrapper">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="input-group mb-3">
+                        <select id="agency" class="form-control">
+                            <option value="">Select Option</option>
+                            <option value="SD">SD</option>
+                            <option value="MIS">MIS</option>
+                            <option value="S">S</option>
+                            <option value="O">O</option>
+                            <option value="ID">ID</option>
+                            <option value="C">C</option>
+                            <option value="M">M</option>
+                            <option value="E">E</option>
+                            <option value="I">I</option>
+                            <option value="CR">CR</option>
+                            <option value="MS">MS</option>
+                            <option value="P">P</option>
+                            <option value="R">R</option>
+                            <option value="IR">IR</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Placeholder text -->
+            <div id="placeholder" class="placeholder-text">
+                Please select a shop code to view the delay graph.
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

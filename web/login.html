@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+    <style>
+        /* General reset and styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            
+
+
+
+
+            color: #333;
+        }
+
+        /* Container styling */
+        .form-container {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        /* Header styling */
+        .form-container h2 {
+            margin-bottom: 1.5rem;
+            color: #6e8efb;
+            font-weight: 600;
+        }
+
+        /* Form styling */
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .form-container label {
+            text-align: left;
+            font-weight: 500;
+            color: #666;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="password"] {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        /* Input focus styling */
+        .form-container input[type="text"]:focus,
+        .form-container input[type="password"]:focus {
+            border-color: #6e8efb;
+            box-shadow: 0 0 5px rgba(110, 142, 251, 0.3);
+        }
+
+        /* Button styling */
+        .form-container button {
+            width: 100%;
+            padding: 0.8rem;
+            margin-top: 1rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #6e8efb;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #5a78d1;
+        }
+
+        /* Additional styles for Register button */
+        .form-container .register-button {
+            background-color: #a777e3;
+        }
+
+        .form-container .register-button:hover {
+            background-color: #9067b7;
+        }
+
+        /* Media query for mobile devices */
+        @media (max-width: 480px) {
+            .form-container {
+                width: 90%;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Login</h2>
+        <form action="LoginServlet" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">Login</button>
+        </form>
+
+        <form action="registration.html">
+            <button type="submit" class="register-button">Register</button>
+        </form>
+    </div>
+</body>
+</html>

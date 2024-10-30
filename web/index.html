@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steel Plant Project - Home</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- CSS Style -->
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+            background-color: #111;
+            color: #f0f0f0;
+            overflow-x: hidden;
+        }
+
+        /* Hero section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            /* Use your local image file path here */
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url('tata_steel_tech_transformation_banner_1920x1080.jpg') no-repeat center center/cover;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            animation: fadeInDown 1.5s ease;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+            color: #d1d1d1;
+            animation: fadeInUp 1.5s ease;
+        }
+
+        .hero .btn {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            color: #111;
+            background-color: #f4a261;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            animation: fadeIn 2s ease;
+        }
+
+        .hero .btn:hover {
+            background-color: #e76f51;
+        }
+
+        @keyframes fadeInDown {
+            0% { opacity: 0; transform: translateY(-50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Footer styling */
+        .footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            background-color: #222;
+            color: #ccc;
+            font-size: 0.9em;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footer a {
+            color: #f4a261;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5em;
+            }
+            .hero p {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <h1>Welcome to the Steel Plant Project</h1>
+        <h1>Delay Management System</h1>
+        <p>Transforming insights into industry with cutting-edge technology and data solutions.</p>
+        <button class="btn" onclick="location.href='login.html'">Explore Project</button>
+    </section>
+
+    <footer class="footer">
+        © 2024 Steel Plant | <a href="https://www.vizagsteel.com/index.asp">steelplantvisakhapatnam.com</a>
+    </footer>
+
+</body>
+</html>
